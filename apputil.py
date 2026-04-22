@@ -6,8 +6,24 @@ import matplotlib.pyplot as plt
 
 
 def update_board(current_board):
-    # your code here ...
-    updated_board = current_board
+    rows, cols = current_board.shape
+    updated_board = np.zeros((rows, cols), dtype=int)
+
+    for i in range(rows):
+        for j in range(cols):
+            live_neighbors = 0
+
+            for r in range(max(0, i - 1), min(rows, i + 2)):
+                for c in range(max(0, j - 1), min(cols, j + 2)):
+                    if (r, c) != (i, j):
+                        live_neighbors += current_board[r, c]
+
+            if current_board[i, j] == 1:
+                if live_neighbors == 2 or live_neighbors == 3:
+                    updated_board[i, j] = 1
+            else:
+                if live_neighbors == 3:
+                    updated_board[i, j] = 1
 
     return updated_board
 
